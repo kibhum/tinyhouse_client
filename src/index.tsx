@@ -3,6 +3,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { Listings } from "./sections";
+import "./styles/index.css";
 
 const GRAPHQL_URL = `/api`;
 const client = new ApolloClient({
@@ -18,7 +19,6 @@ root.render(
     <ApolloProvider client={client}>
       <Listings title="Tinyhouse Listings" />
     </ApolloProvider>
-    ,
   </React.StrictMode>
 );
 
