@@ -1,14 +1,24 @@
 import React from "react";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { Listings } from "./sections";
+
+const GRAPHQL_URL = `/api`;
+const client = new ApolloClient({
+  uri: GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Listings title="Tinyhouse Listings" />
+    <ApolloProvider client={client}>
+      <Listings title="Tinyhouse Listings" />
+    </ApolloProvider>
+    ,
   </React.StrictMode>
 );
 
