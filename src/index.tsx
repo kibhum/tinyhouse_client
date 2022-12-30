@@ -6,6 +6,7 @@ import { Listings } from "./sections";
 import "./styles/index.css";
 
 const GRAPHQL_URL = `/api`;
+
 const client = new ApolloClient({
   uri: GRAPHQL_URL,
   cache: new InMemoryCache(),
