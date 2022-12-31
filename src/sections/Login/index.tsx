@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { Card, Layout, Typography } from "antd";
+import { Card, Layout, Spin, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useApolloClient, useMutation } from "@apollo/client";
 import { AUTH_URL } from "../../lib/graphql/queries";
 import { LOG_IN } from "../../lib/graphql/mutations";
@@ -11,6 +12,11 @@ import { AuthURL as AuthUrlData } from "../../lib/graphql/queries/AuthUrl/__gene
 // Image Asset
 import googleLogo from "./assets/google_logo.jpg";
 import { Viewer } from "../../lib/types";
+import { ErrorBanner } from "../../lib/components";
+import {
+  displaySuccessNotification,
+  displayErrorMessage,
+} from "../../lib/utils";
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -19,12 +25,14 @@ interface Props {
 }
 
 export const Login = ({ setViewer }: Props) => {
+  const navigate = useNavigate();
   const client = useApolloClient();
   const [logIn, { data: logInData, loading: logInLoading, error: logInError }] =
     useMutation<LogInData, LogInVariables>(LOG_IN, {
       onCompleted: (data) => {
         if (data && data.logIn) {
           setViewer(data.logIn);
+          displaySuccessNotification("You have logged in successfully");
         }
       },
     });
@@ -48,10 +56,31 @@ export const Login = ({ setViewer }: Props) => {
         query: AUTH_URL,
       });
       window.location.href = authUrl;
-    } catch {}
+    } catch {
+      displayErrorMessage(
+        "Sorry! We weren't able to log you in. Please try again later!"
+      );
+    }
   };
+  if (logInLoading) {
+    return (
+      <Content className="log-in">
+        <Spin size="large" tip="Logging you in..." />
+      </Content>
+    );
+  }
+
+  if (logInData && logInData.logIn) {
+    const { id: viewerId } = logInData.logIn;
+    navigate(`/user/${viewerId}`);
+  }
+  const logInErrorBannerElement = logInError ? (
+    <ErrorBanner description="Sorry! We weren't able to log you in. Please try again later!" />
+  ) : null;
+
   return (
     <Content className="log-in">
+      {logInErrorBannerElement}
       <Card className="log-in-card">
         <div className="log-in-card__intro">
           <Title level={3} className="log-in-card__intro-title">
