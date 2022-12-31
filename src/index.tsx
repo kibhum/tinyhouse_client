@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import { Layout } from "antd";
 import reportWebVitals from "./reportWebVitals";
+import { Viewer } from "./lib/types";
 import {
   Home,
   Host,
@@ -21,8 +22,18 @@ const client = new ApolloClient({
   uri: GRAPHQL_URL,
   cache: new InMemoryCache(),
 });
+const initialViewer: Viewer = {
+  id: null,
+  avatar: null,
+  token: null,
+  hasWallet: null,
+  didRequest: false,
+};
 
 const App = () => {
+  const [viewer, setViewer] = useState<Viewer>(initialViewer);
+  console.log("viewer", viewer);
+
   return (
     <Router>
       <Layout id="app">
@@ -31,7 +42,7 @@ const App = () => {
           <Route path="/host" element={<Host />} />
           <Route path="/listing/:id" element={<Listing />} />
           <Route path="/listings/:location?" element={<Listings />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setViewer={setViewer} />} />
           <Route path="/user/:id" element={<User />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
