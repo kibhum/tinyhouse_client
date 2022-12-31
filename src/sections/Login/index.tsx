@@ -13,21 +13,19 @@ export const Login = () => {
         <div className="log-in-card__intro">
           <Title level={3} className="log-in-card__intro-title">
             <span role="img" aria-label="wave">
-              🖐
+              👋
             </span>
           </Title>
           <Title level={3} className="log-in-card__intro-title">
-            <span role="img" aria-label="wave">
-              Log In to TinyHouse_Hkk!
-            </span>
+            Log in to TinyHouse!
           </Title>
-          <Text>Sign In with Google to start booking available rentals!</Text>
+          <Text>Sign in with Google to start booking available rentals!</Text>
         </div>
         <button className="log-in-card__google-button">
           <img
             src={googleLogo}
             alt="Google Logo"
-            className="log-in-card__google-button"
+            className="log-in-card__google-button-logo"
           />
           <span className="log-in-card__google-button-text">
             Sign in with Google
