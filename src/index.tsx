@@ -3,7 +3,15 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import { Home, Host, Listing, Listings, NotFound, User } from "./sections";
+import {
+  Home,
+  Host,
+  Listing,
+  Listings,
+  NotFound,
+  User,
+  Login,
+} from "./sections";
 // import "./styles/index.css";
 
 const GRAPHQL_URL = `/api`;
@@ -21,6 +29,7 @@ const App = () => {
         <Route path="/host" element={<Host />} />
         <Route path="/listing/:id" element={<Listing />} />
         <Route path="/listings/:location?" element={<Listings />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/user/:id" element={<User />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
