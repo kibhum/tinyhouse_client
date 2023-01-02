@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
-import { Layout } from "antd";
+import { Affix, Layout } from "antd";
 import reportWebVitals from "./reportWebVitals";
 import { Viewer } from "./lib/types";
 import {
@@ -13,6 +13,7 @@ import {
   NotFound,
   User,
   Login,
+  AppHeader,
 } from "./sections";
 import "./styles/index.css";
 
@@ -32,11 +33,13 @@ const initialViewer: Viewer = {
 
 const App = () => {
   const [viewer, setViewer] = useState<Viewer>(initialViewer);
-  console.log("viewer", viewer);
 
   return (
     <Router>
       <Layout id="app">
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer} setViewer={setViewer} />
+        </Affix>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/host" element={<Host />} />
@@ -55,12 +58,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      {/* <Listings title="Tinyhouse Listings" /> */}
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
