@@ -5,6 +5,7 @@ import {
   InMemoryCache,
   useMutation,
 } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import { Affix, Layout, Spin } from "antd";
@@ -30,10 +31,15 @@ import "./styles/index.css";
 
 const GRAPHQL_URL = `/api`;
 
+const token = sessionStorage.getItem("token");
 const client = new ApolloClient({
   uri: GRAPHQL_URL,
   cache: new InMemoryCache(),
+  headers: {
+    "X-CSRF-TOKEN": token || " ",
+  },
 });
+
 const initialViewer: Viewer = {
   id: null,
   avatar: null,
@@ -48,6 +54,11 @@ const App = () => {
     onCompleted: (data) => {
       if (data && data.logIn) {
         setViewer(data.logIn);
+        if (data.logIn.token) {
+          sessionStorage.setItem("token", data.logIn.token);
+        } else {
+          sessionStorage.removeItem("token");
+        }
       }
     },
   });
