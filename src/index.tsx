@@ -5,7 +5,6 @@ import {
   InMemoryCache,
   useMutation,
 } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import { Affix, Layout, Spin } from "antd";
@@ -95,7 +94,7 @@ const App = () => {
           <Route path="/listing/:id" element={<Listing />} />
           <Route path="/listings/:location?" element={<Listings />} />
           <Route path="/login" element={<Login setViewer={setViewer} />} />
-          <Route path="/user/:id" element={<User />} />
+          <Route path="/user/:id" element={<User viewer={viewer} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
